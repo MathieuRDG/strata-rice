@@ -6,6 +6,7 @@ import org.kde.plasma.core as PlasmaCore
 import org.kde.taskmanager as TaskManager
 import org.kde.kitemmodels as KItemModels
 import org.kde.ksvg as KSvg
+import org.kde.plasma.workspace.dbus as DBus
 
 PlasmoidItem {
     id: root
@@ -46,6 +47,43 @@ PlasmoidItem {
                 tasksModel.launcherList = Plasmoid.configuration.launchers
         }
     }
+
+    // ---------- masquage en plein écran
+    // Fenêtres plein écran non réduites, sur l'écran et le bureau de la hotbar (modèle non groupé)
+    TaskManager.TasksModel {
+        id: fsTasks
+        screenGeometry: Plasmoid.containment.screenGeometry
+        activity: activityInfo.currentActivity
+        virtualDesktop: vdi.currentDesktop
+        filterByScreen: true
+        filterByVirtualDesktop: true
+        filterByActivity: true
+        filterMinimized: true
+        groupMode: TaskManager.TasksModel.GroupDisabled
+    }
+    KItemModels.KSortFilterProxyModel {
+        id: fsProxy
+        sourceModel: fsTasks
+        filterRowCallback: (row, parent) => fsTasks.data(fsTasks.index(row, 0, parent), TaskManager.AbstractTasksModel.IsFullScreen) === true
+    }
+    Connections {
+        target: fsTasks
+        function onDataChanged() { fsProxy.invalidateFilter() }
+        function onRowsInserted() { fsProxy.invalidateFilter() }
+        function onRowsRemoved() { fsProxy.invalidateFilter() }
+        function onLayoutChanged() { fsProxy.invalidateFilter() }
+    }
+    readonly property bool fullscreen: fsProxy.count > 0
+    // le panneau passe en masquage auto (aucune zone ne bloque le jeu), puis revient à « toujours visible »
+    onFullscreenChanged: setPanelHiding(fullscreen ? "autohide" : "none")
+    function setPanelHiding(mode) {
+        const js = `panels().forEach(function (p) { p.widgets().forEach(function (w) {
+            if (w.id == ${Plasmoid.id}) p.hiding = "${mode}"; }); });`
+        DBus.SessionBus.asyncCall({ service: "org.kde.plasmashell", path: "/PlasmaShell",
+            iface: "org.kde.PlasmaShell", member: "evaluateScript",
+            arguments: [new DBus.string(js)], signature: "(s)" }, () => {}, () => {})
+    }
+    Component.onCompleted: setPanelHiding("none")   // état propre au démarrage
 
     readonly property int total: tasksModel.count
     readonly property bool overflow: total > perRow
@@ -204,7 +242,7 @@ PlasmoidItem {
             backgroundHints: PlasmaCore.Dialog.NoBackground
             hideOnWindowDeactivate: false
             outputOnly: !root.overflow
-            visible: root.activeName !== "" || root.overflow
+            visible: (root.activeName !== "" || root.overflow) && !root.fullscreen
 
             mainItem: Column {
                 spacing: 6
