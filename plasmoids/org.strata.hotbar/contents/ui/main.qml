@@ -35,9 +35,11 @@ PlasmoidItem {
         launchInPlace: true            // une app lancée prend la place de son lanceur épinglé
         separateLaunchers: false
         hideActivatedLaunchers: true
+        // lanceurs posés dès la création (pas dans onCompleted) : sinon, si plasmashell redémarre avec des
+        // fenêtres ouvertes, celles-ci sont classées avant les lanceurs et la hotbar se décale
+        launcherList: Plasmoid.configuration.launchers
         onLauncherListChanged: if (String(Plasmoid.configuration.launchers) !== String(launcherList))
                                    Plasmoid.configuration.launchers = launcherList
-        Component.onCompleted: launcherList = Plasmoid.configuration.launchers
     }
     // l'inventaire peut réécrire la liste (épinglage depuis sa rangée du bas)
     Connections {
@@ -133,6 +135,31 @@ PlasmoidItem {
     // (sinon, quand une fenêtre remplace son lanceur épinglé, l'app apparaît deux fois)
     function refilter() { Qt.callLater(doRefilter) }
     function doRefilter() { firstRow.invalidateFilter(); secondRow.invalidateFilter(); activeProxyModel.invalidateFilter() }
+
+    // Remet chaque appli épinglée à la position de son lanceur. Utile quand plasmashell (re)démarre alors
+    // que des fenêtres sont déjà ouvertes : le modèle les classe avant les lanceurs, et launchInPlace
+    // ne s'applique qu'aux fenêtres ouvertes après coup → la hotbar se décalait.
+    function desktopKey(u) { return String(u).replace(/^.*[\/:]/, "") }
+    function enforceLauncherOrder() {
+        const L = tasksModel.launcherList
+        for (let i = 0; i < L.length && i < tasksModel.count; i++) {
+            const want = desktopKey(L[i])
+            for (let r = i; r < tasksModel.count; r++) {
+                if (desktopKey(tasksModel.data(tasksModel.index(r, 0),
+                        TaskManager.AbstractTasksModel.LauncherUrlWithoutIcon)) === want) {
+                    if (r !== i) tasksModel.move(r, i)
+                    break
+                }
+            }
+        }
+    }
+    Timer { id: orderTimer; interval: 400; onTriggered: root.enforceLauncherOrder() }
+    Connections {
+        target: tasksModel
+        function onRowsInserted() { orderTimer.restart() }
+        function onLauncherListChanged() { orderTimer.restart() }
+        function onCountChanged() { orderTimer.restart() }
+    }
 
     function activate(row, mouse) {
         const idx = tasksModel.makeModelIndex(row)
