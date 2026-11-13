@@ -42,7 +42,8 @@ Item {
         cw: 0; light: "#120D08"; dark: "#4A3420"; bw: 3; fill: "#1F1812"
         Kirigami.Icon {
             anchors.centerIn: parent
-            width: 36; height: 36
+            width: 48; height: 48
+            smooth: false
             source: toast.model.image || toast.model.iconName || toast.model.applicationIconName || "preferences-desktop-notification-bell"
         }
     }

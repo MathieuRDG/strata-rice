@@ -69,3 +69,15 @@ La configuration d'origine est sauvegardée une fois dans `~/.local/state/strata
 ## 8. Revenir en arrière
 - Snapshot snapper, ou : restaurer `~/.local/state/strata/backup-initial/*` dans `~/.config/`, supprimer
   `~/.local/share/plasma/shells/org.kde.plasma.desktop` (surcharge du verrouillage), puis se reconnecter.
+
+## 9. Ajouts
+- **Barre DISQUE** (barres d'infos) : occupation de tous les disques via `df` (KSystemStats ne remonte rien pour
+  btrfs), dédoublonnée par périphérique ; détail par disque + débits au survol ; rouge au-delà de 90 %.
+- **Hotbar masquée en plein écran** : dès qu'une fenêtre plein écran (non réduite) est sur son écran/bureau, le
+  panneau passe en masquage auto et la fenêtre superposée se cache ; retour à la normale ensuite.
+- **Icônes pixel** : `tools/pixelicons.py` génère le thème `Strata-Pixel` (hérite de breeze-dark) ;
+  `strata-pixelicons.path` le relance à chaque installation d'app (système, utilisateur, Flatpak).
+  Désactiver : `PIXEL_ICONS="no"` ; exclure des apps : `PIXEL_ICONS_EXCLUDE`. Revenir aux icônes d'origine :
+  `/usr/lib/plasma-changeicons breeze-dark`.
+- Clients : Jellyfin Media Player (`com.github.iwalton3.jellyfin-media-player`) / Jellyfin Desktop
+  (`org.jellyfin.JellyfinDesktop`), Feishin (`feishin`), Discord, Steam — détectés automatiquement.

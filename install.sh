@@ -50,7 +50,7 @@ fi
 # ---------------------------------------------------------------- 2. paquets
 if [ "$PACKAGES" = 1 ]; then
     say "Paquets (pacman)"
-    sudo pacman -S --needed --noconfirm kitty kvantum paru fish fastfetch python >/dev/null || warn "pacman a échoué"
+    sudo pacman -S --needed --noconfirm kitty kvantum paru fish fastfetch python python-pillow librsvg >/dev/null || warn "pacman a échoué"
     if ! pacman -Q kwin-effects-better-blur-dx-git >/dev/null 2>&1; then
         say "Better Blur DX (AUR, compilation)"
         paru -S --needed --noconfirm --skipreview kwin-effects-better-blur-dx-git || warn "Better Blur DX non installé"
@@ -232,6 +232,17 @@ sed "s#%h/strata-rice#$REPO#" lookandfeel/lockscreen/systemd/strata-lockscreen-s
 cp -f lookandfeel/lockscreen/systemd/strata-lockscreen-sync.path "$C/systemd/user/"
 systemctl --user daemon-reload
 systemctl --user enable --now strata-lockscreen-sync.path >/dev/null 2>&1
+
+# ---------------------------------------------------------------- 13b. icônes pixel (Strata-Pixel)
+if [ "${PIXEL_ICONS:-yes}" = yes ]; then
+    say "Icônes d'applications pixelisées"
+    mkdir -p "$C/strata"; printf 'PIXEL_ICONS_EXCLUDE="%s"\n' "${PIXEL_ICONS_EXCLUDE:-}" > "$C/strata/pixelicons.env"
+    PIXEL_ICONS_EXCLUDE="${PIXEL_ICONS_EXCLUDE:-}" python3 tools/pixelicons.py --apply || warn "icônes pixel non générées"
+    sed "s#STRATA_REPO#$REPO#" tools/systemd/strata-pixelicons.service > "$C/systemd/user/strata-pixelicons.service"
+    cp -f tools/systemd/strata-pixelicons.path "$C/systemd/user/"
+    systemctl --user daemon-reload
+    systemctl --user enable --now strata-pixelicons.path >/dev/null 2>&1
+fi
 
 # ---------------------------------------------------------------- 14. écrans (machine cible)
 say "Écrans"

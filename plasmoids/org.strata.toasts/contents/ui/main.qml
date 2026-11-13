@@ -106,7 +106,7 @@ PlasmoidItem {
             Bevel {
                 x: 14; y: 14; width: 48; height: 48
                 cw: 0; light: "#120D08"; dark: "#4A3420"; bw: 3; fill: "#1F1812"
-                Kirigami.Icon { anchors.centerIn: parent; width: 32; height: 32; source: osd.iconName }
+                Kirigami.Icon { anchors.centerIn: parent; width: 32; height: 32; smooth: false; source: osd.iconName }
             }
             Text {
                 x: 74; y: 14

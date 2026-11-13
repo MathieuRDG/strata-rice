@@ -1,0 +1,9 @@
+[Unit]
+Description=Strata : mise à jour du thème d'icônes Strata-Pixel
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sleep 5
+EnvironmentFile=-%h/.config/strata/pixelicons.env
+ExecStart=/usr/bin/python3 STRATA_REPO/tools/pixelicons.py
+Nice=10

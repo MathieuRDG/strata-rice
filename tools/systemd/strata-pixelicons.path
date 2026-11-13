@@ -1,0 +1,14 @@
+[Unit]
+Description=Strata : pixelise les icônes des applications nouvellement installées
+
+[Path]
+PathChanged=/usr/share/applications
+PathChanged=%h/.local/share/applications
+PathChanged=/var/lib/flatpak/exports/share/applications
+PathChanged=%h/.local/share/flatpak/exports/share/applications
+# laisse le temps au gestionnaire de paquets de finir
+TriggerLimitIntervalSec=30
+TriggerLimitBurst=4
+
+[Install]
+WantedBy=default.target

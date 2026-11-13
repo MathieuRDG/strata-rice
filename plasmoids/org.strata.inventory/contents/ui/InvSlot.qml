@@ -37,7 +37,8 @@ Item {
         id: ic
         visible: s.icon !== ""
         source: s.icon
-        width: 44; height: 44
+        width: 48; height: 48
+        smooth: false
         anchors.horizontalCenter: parent.horizontalCenter
         y: s.showName ? 12 : (parent.height - height) / 2
     }

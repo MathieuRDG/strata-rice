@@ -32,7 +32,8 @@ Item {
     Kirigami.Icon {
         visible: !slot.empty
         anchors.centerIn: parent
-        width: Math.round(slot.size * 0.625); height: width   // 40 px pour un slot de 64
+        width: slot.size >= 64 ? 48 : 32; height: width   // tailles exactes du thème Strata-Pixel (net)
+        smooth: false
         source: slot.icon
         opacity: slot.minimized ? 0.6 : 1
     }
