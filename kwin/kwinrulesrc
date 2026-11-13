@@ -1,0 +1,25 @@
+[General]
+count=2
+rules=strata-opaque,strata-opacity
+
+[strata-opaque]
+Description=Strata : 100 % (jeux, Steam, lecteurs vidéo)
+wmclass=^(steam|steamwebhelper|steam_app_.*|steam_proton|gamescope|.*\\.exe|lutris|net\\.lutris\\.Lutris|heroic|com\\.heroicgameslauncher\\.hgl|mpv|vlc|org\\.videolan\\.VLC|org\\.kde\\.haruna|io\\.github\\.celluloid_player\\.Celluloid|com\\.github\\.iwalton3\\.jellyfin-media-player|org\\.jellyfin\\.JellyfinDesktop|jellyfin.*|minecraft.*|java)$
+wmclasscomplete=false
+wmclassmatch=3
+types=1
+opacityactive=100
+opacityactiverule=2
+opacityinactive=100
+opacityinactiverule=2
+
+[strata-opacity]
+Description=Strata : 95 % actif / 85 % inactif (sauf kitty)
+wmclass=^(?!kitty$).*$
+wmclasscomplete=false
+wmclassmatch=3
+types=33
+opacityactive=95
+opacityactiverule=2
+opacityinactive=85
+opacityinactiverule=2

@@ -13,3 +13,5 @@
 | kitty | extra | 0.50.0-1 | terminal (phase 3) |
 | kvantum | extra | 1.1.9-1 | moteur de thème Qt (phase 1) |
 | paru | cachyos | 2.2.0-2 | assistant AUR |
+| cmake, extra-cmake-modules, qt6-tools, vulkan-headers | extra | — | dépendances de compilation (Better Blur DX) |
+| kwin-effects-better-blur-dx-git | AUR | r1137.811bce8-1 | flou forcé (phase 2) — **à recompiler après chaque mise à jour de KWin** |

@@ -1,0 +1,11 @@
+{
+    "KPackageStructure": "KWin/Aurorae",
+    "KPlugin": {
+        "Authors": [{"Name": "Strata"}],
+        "Description": "Décoration pixel Strata : bois, biseaux, ombre dure",
+        "Id": "Strata",
+        "License": "GPL-2.0-or-later",
+        "Name": "Strata",
+        "Version": "1.0"
+    }
+}

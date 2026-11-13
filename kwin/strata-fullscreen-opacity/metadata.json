@@ -1,0 +1,13 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Id": "strata-fullscreen-opacity",
+        "Name": "Strata — opacité plein écran",
+        "Description": "Force 100 % d'opacité aux fenêtres en plein écran (les règles KWin ne peuvent pas cibler cet état).",
+        "License": "GPL-3.0-or-later",
+        "Authors": [{"Name": "Strata"}],
+        "EnabledByDefault": true
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js"
+}
