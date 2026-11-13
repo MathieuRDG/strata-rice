@@ -55,6 +55,10 @@ if [ "$PACKAGES" = 1 ]; then
         say "Better Blur DX (AUR, compilation)"
         paru -S --needed --noconfirm --skipreview kwin-effects-better-blur-dx-git || warn "Better Blur DX non installé"
     fi
+    if ! pacman -Q gtk-nocsd >/dev/null 2>&1; then
+        say "gtk-nocsd (AUR) : barre de titre système pour les applis GTK"
+        paru -S --needed --noconfirm --skipreview gtk-nocsd || warn "gtk-nocsd non installé"
+    fi
 fi
 
 # ---------------------------------------------------------------- 3. polices
@@ -250,6 +254,16 @@ if [ "${PIXEL_ICONS:-yes}" = yes ]; then
     systemctl --user daemon-reload
     systemctl --user enable --now strata-pixelicons.path >/dev/null 2>&1
 fi
+
+# ---------------------------------------------------------------- 13c. barre de titre système pour toutes les applis
+say "Barre de titre Strata pour les applis GTK, Chromium, Electron"
+python3 tools/titlebars.py || warn "barres de titre non réglées"
+for u in service path; do
+    sed "s#STRATA_REPO#$REPO#" "tools/systemd/strata-titlebars.$u" > "$C/systemd/user/strata-titlebars.$u"
+done
+systemctl --user daemon-reload
+systemctl --user enable strata-titlebars.service >/dev/null 2>&1      # à chaque ouverture de session
+systemctl --user enable --now strata-titlebars.path >/dev/null 2>&1   # à chaque installation d'appli
 
 # ---------------------------------------------------------------- 14. écrans (machine cible)
 say "Écrans"

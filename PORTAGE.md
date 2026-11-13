@@ -89,5 +89,23 @@ La configuration d'origine est sauvegardée une fois dans `~/.local/state/strata
   Redémarrer Firefox après. Le lancer une fois avant `install.sh` pour que le profil existe.
 - Web apps (Jellyfin, Navidrome, Proxmox sans client natif) : profil Firefox dédié dans `~/.local/share/strata-webapps/<app>`
   et `--name strata-<app>`, pour avoir leur propre slot dans la hotbar au lieu d'être confondues avec Firefox.
-- Barre de titre système pour les autres apps : VS Code → `"window.titleBarStyle": "native"` ; Vesktop → option
-  « Barre de titre native ». Discord officiel, Steam et les apps GTK4/libadwaita dessinent leur propre barre : non modifiable.
+
+## Barre de titre Strata pour toutes les applis
+`tools/titlebars.py` (lancé par `install.sh`, à chaque ouverture de session par `strata-titlebars.service` et à
+chaque installation d'appli par `strata-titlebars.path`) bascule sur la décoration système Strata les applis qui
+dessinent leur propre barre (CSD). `python3 tools/titlebars.py --check` affiche l'état sans rien modifier.
+
+| Applis | Méthode |
+|---|---|
+| Qt / KDE | déjà décorées par KWin |
+| GTK3, GTK4, libadwaita, libhandy (Meld, GNOME…) | `gtk-nocsd` (AUR) préchargé via `~/.config/environment.d/90-strata-nocsd.conf` — **effectif après reconnexion** |
+| Firefox, LibreWolf | `apps/firefox/apply.sh` |
+| Chrome, Chromium, Brave, Vivaldi, Edge, Thorium, Helium | `Preferences` : `browser.custom_chrome_frame = false` (navigateur fermé) |
+| VS Code, Code - OSS, VSCodium, Cursor | `settings.json` : `window.titleBarStyle = native` |
+| Vesktop, Obsidian | réglage « barre native » de l'appli |
+| Steam, Discord officiel, Flatpak GTK | non modifiables (barre dessinée par le client / bac à sable) |
+
+- Un fichier modifié est d'abord copié en `*.strata.bak`. Une appli ouverte n'est pas touchée : elle le sera au passage suivant.
+- `gtk-nocsd` n'existe qu'en 64 bits : les programmes 32 bits (Steam, certains jeux) affichent un avertissement
+  `ld.so: object … cannot be preloaded: wrong ELF class` sans conséquence.
+- Désactiver pour GTK : supprimer `~/.config/environment.d/90-strata-nocsd.conf`, puis se reconnecter.

@@ -1,0 +1,12 @@
+[Unit]
+Description=Strata : barre de titre système pour les applis GTK, Chromium, Electron
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sleep 5
+ExecStart=/usr/bin/python3 STRATA_REPO/tools/titlebars.py
+Nice=10
+
+[Install]
+WantedBy=default.target

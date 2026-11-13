@@ -4,7 +4,7 @@
 set -euo pipefail
 src=$(cd "$(dirname "$0")" && pwd)
 n=0
-for base in "$HOME/.config/mozilla/firefox" "$HOME/.mozilla/firefox"; do
+for base in "$HOME/.config/mozilla/firefox" "$HOME/.mozilla/firefox" "$HOME/.librewolf" "$HOME/.config/librewolf/librewolf"; do
     [ -f "$base/profiles.ini" ] || continue
     while IFS= read -r p; do
         dir="$base/$p"; [ -d "$dir" ] || continue

@@ -17,3 +17,4 @@
 | sddm | cachyos | 0.21.0-6 | greeter de test du thème (non activé dans la VM, qui utilise plasmalogin) |
 | ydotool | extra | — | tests visuels uniquement (simuler la souris dans la VM) — inutile sur la machine cible |
 | kwin-effects-better-blur-dx-git | AUR | r1137.811bce8-1 | flou forcé (phase 2) — **à recompiler après chaque mise à jour de KWin** |
+| gtk-nocsd | AUR | 4.8-1 | barre de titre système (Strata) pour les applis GTK3/GTK4/libadwaita (`tools/titlebars.py`) |
