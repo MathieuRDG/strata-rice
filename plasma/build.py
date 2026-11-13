@@ -264,8 +264,14 @@ if __name__ == '__main__':
         'dialogs/background.svg': panel_like(B),
         'widgets/background.svg': panel_like(B),
         'widgets/tooltip.svg': panel_like(S, 8),
-        'widgets/panel-background.svg': panel_like(B, 8),
+        # Panneaux toujours sans fond : la hotbar dessine son propre cadre bois
+        # (le réglage d'opacité par panneau n'est pas fiable)
+        'widgets/panel-background.svg': transparent_panel(),
         'translucent/widgets/panel-background.svg': transparent_panel(),
+        'solid/widgets/panel-background.svg': transparent_panel(),
+        'opaque/widgets/panel-background.svg': transparent_panel(),
+        # cadre de la hotbar (relief bois, sans ombre KWin)
+        'widgets/hotbar.svg': panel_like(B, 8, shadow=False),
         'widgets/tasks.svg': tasks(),
         'widgets/viewitem.svg': viewitem(),
         'widgets/listitem.svg': listitem(),

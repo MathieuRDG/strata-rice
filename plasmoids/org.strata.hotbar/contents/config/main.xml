@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+  <group name="General">
+    <entry name="launchers" type="StringList">
+      <default>applications:kitty.desktop,applications:org.kde.dolphin.desktop,applications:firefox.desktop,applications:strata-discord.desktop,applications:strata-jellyfin.desktop,applications:strata-navidrome.desktop,applications:strata-steam.desktop,applications:strata-vscode.desktop,applications:strata-proxmox.desktop</default>
+    </entry>
+    <entry name="slotSize" type="Int"><default>64</default></entry>
+  </group>
+</kcfg>

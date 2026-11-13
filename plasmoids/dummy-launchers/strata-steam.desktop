@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Steam
+Comment=Lanceur factice Strata (application absente de la VM)
+Icon=applications-games
+Exec=notify-send -a Strata -i applications-games "Steam" "Lanceur factice : application absente de la VM de test"
+Categories=Game;
+NoDisplay=false

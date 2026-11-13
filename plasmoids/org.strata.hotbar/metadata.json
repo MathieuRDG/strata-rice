@@ -1,0 +1,15 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [{ "Name": "Strata" }],
+        "Category": "Windows and Tasks",
+        "Description": "Hotbar de 9 slots (Meta+1…9), 2e rangée au-delà de 9 apps, nom de l'app active",
+        "Icon": "preferences-system-windows",
+        "Id": "org.strata.hotbar",
+        "License": "GPL-3.0-or-later",
+        "Name": "Strata — hotbar",
+        "Version": "1.0"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": ["org.kde.plasma.multitasking"]
+}

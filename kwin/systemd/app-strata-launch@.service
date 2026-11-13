@@ -1,0 +1,6 @@
+[Unit]
+Description=Strata : lancement de %i depuis la hotbar
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/kstart --application %i

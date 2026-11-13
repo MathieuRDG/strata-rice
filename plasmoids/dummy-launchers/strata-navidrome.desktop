@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Navidrome
+Comment=Lanceur factice Strata (application absente de la VM)
+Icon=audio-x-generic
+Exec=notify-send -a Strata -i audio-x-generic "Navidrome" "Lanceur factice : application absente de la VM de test"
+Categories=AudioVideo;Audio;
+NoDisplay=false

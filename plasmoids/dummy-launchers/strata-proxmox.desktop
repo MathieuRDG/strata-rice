@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Proxmox VE
+Comment=Lanceur factice Strata (application absente de la VM)
+Icon=network-server
+Exec=notify-send -a Strata -i network-server "Proxmox VE" "Lanceur factice : application absente de la VM de test"
+Categories=Network;System;
+NoDisplay=false

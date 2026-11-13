@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VS Code
+Comment=Lanceur factice Strata (application absente de la VM)
+Icon=applications-development
+Exec=notify-send -a Strata -i applications-development "VS Code" "Lanceur factice : application absente de la VM de test"
+Categories=Development;IDE;
+NoDisplay=false

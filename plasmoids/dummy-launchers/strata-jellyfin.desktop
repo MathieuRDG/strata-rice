@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Jellyfin
+Comment=Lanceur factice Strata (application absente de la VM)
+Icon=applications-multimedia
+Exec=notify-send -a Strata -i applications-multimedia "Jellyfin" "Lanceur factice : application absente de la VM de test"
+Categories=AudioVideo;Video;
+NoDisplay=false

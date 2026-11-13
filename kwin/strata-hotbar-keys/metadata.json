@@ -1,0 +1,13 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Id": "strata-hotbar-keys",
+        "Name": "Strata — raccourcis de la hotbar",
+        "Description": "Meta+1…9 : active / réduit / lance l'app du slot N de la hotbar Strata",
+        "License": "GPL-3.0-or-later",
+        "Authors": [{"Name": "Strata"}],
+        "EnabledByDefault": true
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js"
+}
