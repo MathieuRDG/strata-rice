@@ -4,6 +4,8 @@ Rice **original** inspiré des jeux de blocs (bois, herbe, terre, pierre, slots 
 
 ![Bureau Strata : barres d'infos, hotbar, kitty + fastfetch, Dolphin](docs/screenshot.png)
 
+![Lanceur « inventaire » : onglets par catégorie, recherche, grille de 9 colonnes, rappel de la hotbar](docs/inventory.png)
+
 ## Installation
 
 Depuis un terminal de la session Plasma (Wayland), CachyOS / Arch :
