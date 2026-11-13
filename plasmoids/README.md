@@ -64,3 +64,29 @@ org.kde.plasma.launchermenu` → la touche **Meta** (`activateLauncherMenu`) l'o
   changements de sa config). On peut aussi glisser directement sur la vraie hotbar.
 - Fenêtre : `PlasmaCore.Dialog` centré (1040×780 + ombre dure 8 px), sans fond Plasma (dessin QML).
   La popup standard du plasmoid est neutralisée (`expanded` → remis à false, état figé avant repli).
+
+## org.strata.toasts (phase 8) — notifications + OSD de volume
+Icône cloche dans le panneau haut (or = actif, pierre = « ne pas déranger » ; clic pour basculer).
+
+**Notifications** — popups maison sur le modèle public `org.kde.notificationmanager` (`Notifications`) :
+pile en haut à droite sous le panneau, 420 px, plus récente en haut, 5 max ; panneau en relief + ombre dure ;
+icône dans un slot de 56 px ; app + heure ; titre coloré (ciel = faible, accent = normale, or = avec actions,
+rouge = critique) ; corps en CozetteVector 13 px ; boutons d'action ; jauge de 24 segments qui se vide
+(pause au survol, critique sans délai = jauge pleine). Clic = action par défaut, carré rouge = fermer.
+- L'applet standard `org.kde.plasma.notifications` est **retirée** de la zone de notification
+  (absente de `extraItems`, mais conservée dans `knownItems`, sinon Plasma la réajoute) → plus de doublons.
+  Contrepartie : plus d'historique des notifications dans la barre.
+- Piège : la hauteur de la pile est calculée à la main (une `Column` dans une fenêtre cachée n'est jamais
+  « polie » → hauteur 0 → la fenêtre refuse de s'ouvrir) ; visibilité pilotée impérativement.
+
+**OSD de volume** — panneau en relief, icône dans un slot, jauge de 16 segments, valeur en CozetteVector 26 px,
+au-dessus de la hotbar. OSD standard coupé : `plasmaparc [General] VolumeOsd=false` (copie : `kwin/plasmaparc`),
+lu par le module kded `audioshortcutsservice` (le recharger : `qdbus6 org.kde.kded6 /kded unloadModule/loadModule`).
+
+### Stylable / non stylable
+| Élément | Statut |
+|---|---|
+| Popups de notification | ✅ maison (QML) — mise en page libre |
+| OSD volume / muet | ✅ maison |
+| OSD luminosité, micro, clavier, changement de sortie | ⚠️ OSD standard de plasmashell (QML compilé, non remplaçable) : seulement habillé par le Plasma Style (cadre bois `dialogs/background`, jauge segmentée `bar_meter_horizontal`) |
+| Historique des notifications | ❌ non fourni (applet standard retirée) |

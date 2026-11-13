@@ -1,0 +1,14 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [{ "Name": "Strata" }],
+        "Category": "System Information",
+        "Description": "Notifications empilées façon « toasts » + OSD de volume Strata",
+        "Icon": "preferences-desktop-notification-bell",
+        "Id": "org.strata.toasts",
+        "License": "GPL-3.0-or-later",
+        "Name": "Strata — notifications et OSD",
+        "Version": "1.0"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
