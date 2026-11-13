@@ -2,11 +2,13 @@
 
 Rice **original** inspiré des jeux de blocs (bois, herbe, terre, pierre, slots d'inventaire). Aucune ressource issue d'un jeu existant : textures, polices, icônes et fonds sont dessinés ou générés pour Strata.
 
-![Bureau Strata : barres d'infos, hotbar, kitty + fastfetch, Dolphin](docs/screenshot.png)
+![Bureau Strata : barres d'infos (bureaux, CPU, RAM, GPU, disque, heure), notifications avec jauge, kitty + fastfetch, Dolphin, appli GTK avec la barre de titre Strata, OSD de volume, hotbar à deux rangées](docs/screenshot.png)
 
 ![Lanceur « inventaire » : onglets par catégorie, recherche, grille de 9 colonnes, rappel de la hotbar](docs/inventory.png)
 
 ![Écran de connexion SDDM : paysage de nuit, panneau en bois, bouton « Se connecter »](docs/sddm.png)
+
+![Splash « Chargement du monde… » et écran de verrouillage](docs/splash-lock.png)
 
 ## Installation
 
