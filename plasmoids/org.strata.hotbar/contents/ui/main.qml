@@ -254,8 +254,9 @@ PlasmoidItem {
             mainItem: Column {
                 spacing: 6
                 // largeur explicite : le Dialog suit width/height de son mainItem (sinon le nom est tronqué)
-                width: Math.max(t.implicitWidth + 2, root.overflow ? row2.implicitWidth : 0)
-                height: (root.activeName !== "" ? t.implicitHeight + 2 : 0) + (root.overflow ? row2.implicitHeight + 6 : 0)
+                // jamais 0 : une surface Wayland de taille nulle = erreur de protocole → plasmashell tué
+                width: Math.max(64, t.implicitWidth + 2, root.overflow ? row2.implicitWidth : 0)
+                height: Math.max(24, t.implicitHeight + 2) + (root.overflow ? row2.implicitHeight + 6 : 0)
                 Item {
                     width: parent.width
                     height: label.height
