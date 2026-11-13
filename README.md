@@ -6,6 +6,8 @@ Rice **original** inspiré des jeux de blocs (bois, herbe, terre, pierre, slots 
 
 ![Lanceur « inventaire » : onglets par catégorie, recherche, grille de 9 colonnes, rappel de la hotbar](docs/inventory.png)
 
+![Écran de connexion SDDM : paysage de nuit, panneau en bois, bouton « Se connecter »](docs/sddm.png)
+
 ## Installation
 
 Depuis un terminal de la session Plasma (Wayland), CachyOS / Arch :
