@@ -2,8 +2,22 @@
 
 Rice **original** inspiré des jeux de blocs (bois, herbe, terre, pierre, slots d'inventaire) — voir `CLAUDE.md`.
 
-- Installation : `./install.sh` (cf. `PORTAGE.md`), réglages : `strata.conf`
-- `backup/config/` : état d'origine de `~/.config` (VM)
+## Installation
+
+Depuis un terminal de la session Plasma (Wayland), CachyOS / Arch :
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/STRATA_GH_REPO/main/boot.sh | bash
+```
+
+- Clone dans `~/.local/share/strata` puis lance `install.sh` ; relancer la commande = mise à jour.
+- Options : `… | bash -s -- --with-sddm` (écran de connexion, sudo), `--reset-layout`, `--no-packages`.
+- Réglages : `~/.local/share/strata/strata.conf`, puis `./install.sh`. Détails machine cible : `PORTAGE.md`.
+- Se déconnecter / reconnecter une fois à la fin.
+
+## Contenu
+
+- `backup/` (non versionné) : état d'origine de `~/.config` de la VM de développement
 - `fonts/` : Pixelify Sans (OFL), Cozette (MIT) + règle fontconfig
 - `wallpaper/` : générateur de paysage pixel jour/nuit (Python pur)
 - `colors/`, `kvantum/` : jeu de couleurs et thème Kvantum (générateur SVG)
