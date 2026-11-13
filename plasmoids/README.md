@@ -46,3 +46,21 @@ Les raccourcis « Activer l'entrée N du gestionnaire de tâches » sont enregis
   (`desktopFileName`) ou la lance via l'unité utilisateur `kwin/systemd/app-strata-launch@.service`
   (`kstart --application %i`) ;
 - `kglobalshortcutsrc [plasmashell] activate task manager entry N=none` pour libérer Meta+N.
+
+## org.strata.inventory (phase 7)
+Icône « coffre » 3×3 en tête du panneau haut (`AppletOrder` de la containment). `X-Plasma-Provides:
+org.kde.plasma.launchermenu` → la touche **Meta** (`activateLauncherMenu`) l'ouvre/ferme.
+
+- **Source des apps : modèles Kicker** (`org.kde.plasma.private.kicker` `RootModel`) — ils suivent le menu
+  freedesktop tenu à jour par KService (installations/désinstallations comprises), sans parser les `.desktop` à la main.
+  Un seul modèle « toutes les apps » filtré (`KSortFilterProxyModel`) par onglet et par recherche (insensible
+  à la casse et aux accents) ; table app → onglet construite depuis les catégories du menu (noms FR + EN).
+- Onglets : Tout, Système (accent), Internet (ciel), Multimédia (or), Jeux (rouge), Dev (gemme), Outils (violet) ;
+  l'onglet actif n'a pas de bord bas et se fond dans le panneau. Ctrl+Tab / Ctrl+PgSuiv pour changer.
+- Recherche en creux, focus automatique ; Entrée = lancer la sélection, flèches = naviguer, Échap = fermer.
+- Grille 9 colonnes de slots 104 px (icône + nom, liseré de la couleur de catégorie), barre de défilement en bois.
+- Rangée du bas = rappel de la hotbar : y **déposer** une app (glisser depuis la grille) la place dans ce slot ;
+  écriture via `plasmashell evaluateScript` (`writeConfig("launchers")` sur le widget hotbar, qui suit les
+  changements de sa config). On peut aussi glisser directement sur la vraie hotbar.
+- Fenêtre : `PlasmaCore.Dialog` centré (1040×780 + ombre dure 8 px), sans fond Plasma (dessin QML).
+  La popup standard du plasmoid est neutralisée (`expanded` → remis à false, état figé avant repli).

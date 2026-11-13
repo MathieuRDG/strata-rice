@@ -34,8 +34,17 @@ PlasmoidItem {
         launchInPlace: true            // une app lancée prend la place de son lanceur épinglé
         separateLaunchers: false
         hideActivatedLaunchers: true
-        onLauncherListChanged: Plasmoid.configuration.launchers = launcherList
+        onLauncherListChanged: if (String(Plasmoid.configuration.launchers) !== String(launcherList))
+                                   Plasmoid.configuration.launchers = launcherList
         Component.onCompleted: launcherList = Plasmoid.configuration.launchers
+    }
+    // l'inventaire peut réécrire la liste (épinglage depuis sa rangée du bas)
+    Connections {
+        target: Plasmoid.configuration
+        function onLaunchersChanged() {
+            if (String(Plasmoid.configuration.launchers) !== String(tasksModel.launcherList))
+                tasksModel.launcherList = Plasmoid.configuration.launchers
+        }
     }
 
     readonly property int total: tasksModel.count

@@ -1,0 +1,15 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [{ "Name": "Strata" }],
+        "Category": "Application Launchers",
+        "Description": "Lanceur façon inventaire : onglets, recherche, grille de 9 colonnes, rappel de la hotbar",
+        "Icon": "view-app-grid",
+        "Id": "org.strata.inventory",
+        "License": "GPL-3.0-or-later",
+        "Name": "Strata — inventaire",
+        "Version": "1.0"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": ["org.kde.plasma.launchermenu"]
+}
