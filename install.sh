@@ -241,6 +241,7 @@ mkdir -p "$C/systemd/user"
 cp -f kwin/systemd/app-strata-launch@.service "$C/systemd/user/"
 sed "s#%h/strata-rice#$REPO#" lookandfeel/lockscreen/systemd/strata-lockscreen-sync.service > "$C/systemd/user/strata-lockscreen-sync.service"
 cp -f lookandfeel/lockscreen/systemd/strata-lockscreen-sync.path "$C/systemd/user/"
+rm -f "$C/systemd/user/default.target.wants/strata-titlebars.service"   # ancien emplacement
 systemctl --user daemon-reload
 systemctl --user enable --now strata-lockscreen-sync.path >/dev/null 2>&1
 
@@ -261,6 +262,7 @@ python3 tools/titlebars.py || warn "barres de titre non réglées"
 for u in service path; do
     sed "s#STRATA_REPO#$REPO#" "tools/systemd/strata-titlebars.$u" > "$C/systemd/user/strata-titlebars.$u"
 done
+rm -f "$C/systemd/user/default.target.wants/strata-titlebars.service"   # ancien emplacement
 systemctl --user daemon-reload
 systemctl --user enable strata-titlebars.service >/dev/null 2>&1      # à chaque ouverture de session
 systemctl --user enable --now strata-titlebars.path >/dev/null 2>&1   # à chaque installation d'appli
