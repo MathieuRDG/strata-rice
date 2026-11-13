@@ -50,4 +50,5 @@ fi
 
 # curl | bash : stdin est le script ; on rend le terminal à install.sh (sudo, paru)
 cd "$STRATA_DIR"
-if [ -t 0 ]; then exec ./install.sh "$@"; else exec ./install.sh "$@" </dev/tty; fi
+if [ ! -t 0 ] && { : </dev/tty; } 2>/dev/null; then exec ./install.sh "$@" </dev/tty; fi
+exec ./install.sh "$@"

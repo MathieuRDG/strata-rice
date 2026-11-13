@@ -1,6 +1,6 @@
 # Strata — rice KDE Plasma 6
 
-Rice **original** inspiré des jeux de blocs (bois, herbe, terre, pierre, slots d'inventaire) — voir `CLAUDE.md`.
+Rice **original** inspiré des jeux de blocs (bois, herbe, terre, pierre, slots d'inventaire). Aucune ressource issue d'un jeu existant : textures, polices, icônes et fonds sont dessinés ou générés pour Strata.
 
 ## Installation
 
