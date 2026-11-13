@@ -2,6 +2,8 @@
 
 Rice **original** inspiré des jeux de blocs (bois, herbe, terre, pierre, slots d'inventaire). Aucune ressource issue d'un jeu existant : textures, polices, icônes et fonds sont dessinés ou générés pour Strata.
 
+![Bureau Strata : barres d'infos, hotbar, kitty + fastfetch, Dolphin](docs/screenshot.png)
+
 ## Installation
 
 Depuis un terminal de la session Plasma (Wayland), CachyOS / Arch :
