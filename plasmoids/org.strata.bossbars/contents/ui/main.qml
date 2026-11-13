@@ -63,7 +63,7 @@ PlasmoidItem {
         Layout.fillHeight: true
         Layout.minimumHeight: 44
         Layout.preferredHeight: 48
-        Layout.minimumWidth: 900
+        Layout.minimumWidth: Plasmoid.configuration.showBars ? 900 : 300
 
         // ---------- À gauche : bureaux
         Row {
@@ -97,8 +97,9 @@ PlasmoidItem {
             }
         }
 
-        // ---------- Au centre : 3 barres
+        // ---------- Au centre : 3 barres (masquées en version réduite, second écran)
         Row {
+            visible: Plasmoid.configuration.showBars
             anchors.centerIn: parent
             spacing: 28
 
@@ -139,7 +140,7 @@ PlasmoidItem {
             ShadowText {
                 anchors.right: parent.right
                 offset: 1
-                text: Qt.locale().toString(root.now, "ddd d MMM") + "  ·  " + root.volText
+                text: Qt.locale().toString(root.now, "ddd d MMM") + (Plasmoid.configuration.showBars ? "  ·  " + root.volText : "")
                 color: root.cText2
                 font.family: "Pixelify Sans"; font.pixelSize: 12
             }
