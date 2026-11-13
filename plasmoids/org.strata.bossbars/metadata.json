@@ -1,0 +1,14 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [{ "Name": "Strata" }],
+        "Category": "System Information",
+        "Description": "Barres d'infos façon « boss bar » : bureaux, CPU / RAM / GPU, heure",
+        "Icon": "utilities-system-monitor",
+        "Id": "org.strata.bossbars",
+        "License": "GPL-3.0-or-later",
+        "Name": "Strata — barres d'infos",
+        "Version": "1.0"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

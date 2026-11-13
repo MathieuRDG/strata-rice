@@ -5,4 +5,4 @@ enabled=false
 enabled=false
 
 [BlurBehindEffect]
-enabled=true
+enabled=false

@@ -255,7 +255,7 @@ enabled=false
 enabled=false
 
 [BlurBehindEffect]
-enabled=true
+enabled=false
 """
 
 if __name__ == '__main__':

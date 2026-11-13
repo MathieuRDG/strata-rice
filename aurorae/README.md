@@ -21,11 +21,15 @@
 - Plein écran : les règles ne peuvent pas le cibler → script KWin `kwin/strata-fullscreen-opacity`
   (`kpackagetool6 --type KWin/Script -i …`, `kwinrc [Plugins] strata-fullscreen-opacityEnabled=true`).
 
-## Flou — Better Blur DX
+## Flou — Better Blur DX + flou standard
 - AUR `kwin-effects-better-blur-dx-git` (construit avec makepkg, installé avec `pacman -U`).
 - ⚠️ **À recompiler après chaque mise à jour de KWin** (`paru -S kwin-effects-better-blur-dx-git --rebuild`), sinon l'effet ne se charge plus.
-- `kwinrc [Plugins] blurEnabled=false`, `better_blur_dxEnabled=true`
-- `kwinrc [Effect-better-blur-dx]` : `BlurNonMatching=true`, `BlurMatching=false` (flou forcé partout sauf la liste),
-  `WindowClasses` = steam, gamescope, lecteurs vidéo, plasmashell, spectacle ;
-  `BlurDecorations=true`, `BlurMenus=true`, `BlurStrength=6`.
-- kitty **n'est pas** dans `WindowClasses` : s'il y est, Better Blur DX ignore aussi sa demande de flou (`background_blur`).
+- Better Blur DX **n'implémente pas** le protocole de flou KDE : sans l'effet `blur` standard, Plasma croit le flou
+  indisponible (pas de panneau translucide) et kitty n'est pas flouté. On garde donc **les deux**, sans doublon :
+  - `kwinrc [Plugins] blurEnabled=true` : flou standard pour les fenêtres qui le demandent (kitty `background_blur`) ;
+    `[Effect-blur] BlurStrength=6`, `NoiseStrength=0`
+  - `kwinrc [Plugins] better_blur_dxEnabled=true`, `[Effect-better-blur-dx]` : `BlurNonMatching=true`,
+    `BlurMatching=false` (flou forcé partout sauf la liste), `WindowClasses` = kitty, steam, steamwebhelper,
+    gamescope, mpv, vlc, org.kde.haruna, plasmashell, spectacle, xwaylandvideobridge ;
+    `BlurDecorations=true`, `BlurMenus=true`, `BlurStrength=6`.
+- Le Plasma Style ne demande pas de flou (`plasmarc [BlurBehindEffect] enabled=false`) : panneau du haut vraiment transparent.
