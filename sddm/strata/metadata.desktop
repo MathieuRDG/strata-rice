@@ -1,0 +1,15 @@
+[SddmGreeterTheme]
+Name=Strata
+Description=Écran de connexion pixel Strata : paysage de nuit, panneau en bois
+Author=Strata
+License=GPL-3.0-or-later
+Type=sddm-theme
+Version=1.0
+Website=
+Screenshot=images/night-1920x1080.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=
+Theme-Id=strata
+Theme-API=2.0
+QtVersion=6
