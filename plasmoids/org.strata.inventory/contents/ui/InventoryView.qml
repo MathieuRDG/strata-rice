@@ -71,7 +71,7 @@ FocusScope {
     Bevel {
         id: searchBox
         x: view.pad; y: view.tabH + 18
-        width: view.pw - 2 * view.pad; height: 40
+        width: view.pw - 2 * view.pad - powerRow.width - 12; height: 40
         cw: search.activeFocus ? 2 : 0; contour: "#7CCB4A"
         light: "#120D08"; dark: "#4A3420"; bw: 3; fill: "#1F1812"
         Text {
@@ -104,6 +104,19 @@ FocusScope {
             font.family: "CozetteVector"; font.pixelSize: 13
             renderType: Text.NativeRendering; antialiasing: false
         }
+    }
+
+    // ---------- session : verrouiller, veille, déconnexion, redémarrer, éteindre
+    Row {
+        id: powerRow
+        z: 5
+        x: view.pw - view.pad - width; y: view.tabH + 18
+        spacing: 6
+        PowerButton { kind: "lock";    label: "Verrouiller";  onClicked: root.session("lock") }
+        PowerButton { kind: "suspend"; label: "Veille";       onClicked: root.session("suspend") }
+        PowerButton { kind: "logout";  label: "Déconnexion";  onClicked: root.session("logout") }
+        PowerButton { kind: "reboot";  label: "Redémarrer";   onClicked: root.session("reboot") }
+        PowerButton { kind: "off";     label: "Éteindre";     onClicked: root.session("off") }
     }
 
     // ---------- grille 9 colonnes + barre de défilement en bois

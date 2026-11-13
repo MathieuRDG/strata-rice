@@ -90,3 +90,7 @@ lu par le module kded `audioshortcutsservice` (le recharger : `qdbus6 org.kde.kd
 | OSD volume / muet | ✅ maison |
 | OSD luminosité, micro, clavier, changement de sortie | ⚠️ OSD standard de plasmashell (QML compilé, non remplaçable) : seulement habillé par le Plasma Style (cadre bois `dialogs/background`, jauge segmentée `bar_meter_horizontal`) |
 | Historique des notifications | ❌ non fourni (applet standard retirée) |
+
+### Actions de session (inventaire)
+5 boutons pixel à droite de la recherche : verrouiller (`org.freedesktop.ScreenSaver.Lock`), veille
+(logind `Suspend`, bus système), déconnexion / redémarrer / éteindre (`org.kde.LogoutPrompt` → confirmation KDE).

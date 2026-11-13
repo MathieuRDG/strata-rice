@@ -140,6 +140,23 @@ print(out);`
         root.hotbar = list
     }
 
+    // Actions de session. Déconnexion / redémarrage / arrêt passent par la confirmation KDE (LogoutPrompt).
+    function session(action) {
+        inv.visible = false
+        const call = (bus, service, path, iface, member, args, sig) =>
+            bus.asyncCall({ service: service, path: path, iface: iface, member: member,
+                            arguments: args || [], signature: sig || "" }, () => {}, () => {})
+        if (action === "lock")
+            call(DBus.SessionBus, "org.freedesktop.ScreenSaver", "/ScreenSaver", "org.freedesktop.ScreenSaver", "Lock")
+        else if (action === "suspend")
+            call(DBus.SystemBus, "org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager",
+                 "Suspend", [new DBus.bool(true)], "(b)")
+        else {
+            const m = { logout: "promptLogout", reboot: "promptReboot", off: "promptShutDown" }[action]
+            call(DBus.SessionBus, "org.kde.LogoutPrompt", "/LogoutPrompt", "org.kde.LogoutPrompt", m)
+        }
+    }
+
     // Meta (activateLauncherMenu) et clic sur l'icône du panneau
     property double lastToggle: 0
     function toggle() {
@@ -164,7 +181,7 @@ print(out);`
     // Meta / clic : Plasma bascule « expanded » ; on mémorise l'état visible à cet instant
     // (le repli de la popup standard désactive notre fenêtre, qui se masque aussitôt)
     property bool wasOpen: false
-    onExpandedChanged: if (expanded) { wasOpen = inv.visible; expanded = false; openTimer.restart() }
+    onExpandedChanged: if (root.expanded) { wasOpen = inv.visible; root.expanded = false; openTimer.restart() }
     Timer { id: openTimer; interval: 120; onTriggered: { if (root.wasOpen) inv.visible = false; else root.toggle() } }
 
     compactRepresentation: MouseArea {
