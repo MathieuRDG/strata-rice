@@ -1,0 +1,50 @@
+// Strata — fastfetch : logo pixel original (arbre sur couches herbe / terre / pierre)
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "file",
+    "source": "~/.config/fastfetch/logo.txt",
+    "color": {
+      "1": "38;2;124;203;74",
+      "2": "38;2;93;155;58",
+      "3": "38;2;74;52;32",
+      "4": "38;2;124;203;74",
+      "5": "38;2;122;82;50",
+      "6": "38;2;110;110;110",
+      "7": "38;2;232;178;58",
+      "8": "38;2;94;214;208",
+      "9": "38;2;139;106;71"
+    },
+    "padding": { "top": 1, "left": 2, "right": 3 }
+  },
+  "display": {
+    "separator": "  ",
+    "color": {
+      "keys": "38;2;232;178;58",
+      "title": "38;2;124;203;74",
+      "output": "38;2;237;227;207",
+      "separator": "38;2;139;106;71"
+    },
+    "key": { "width": 10 },
+    "bar": { "char": { "elapsed": "■", "total": "□" }, "width": 10 },
+    "percent": { "type": 3, "color": { "green": "38;2;124;203;74", "yellow": "38;2;232;178;58", "red": "38;2;200;85;61" } }
+  },
+  "modules": [
+    "title",
+    { "type": "custom", "format": "\u001b[38;2;139;106;71m▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀" },
+    { "type": "os",       "key": "système" },
+    { "type": "kernel",   "key": "noyau" },
+    { "type": "uptime",   "key": "uptime" },
+    { "type": "packages", "key": "paquets" },
+    { "type": "shell",    "key": "shell" },
+    { "type": "de",       "key": "bureau" },
+    { "type": "wm",       "key": "fenêtres" },
+    { "type": "terminal", "key": "terminal" },
+    { "type": "cpu",      "key": "cpu" },
+    { "type": "gpu",      "key": "gpu" },
+    { "type": "memory",   "key": "ram" },
+    { "type": "disk",     "key": "disque", "folders": "/" },
+    "break",
+    { "type": "colors", "symbol": "block" }
+  ]
+}

@@ -26,5 +26,6 @@
 - ⚠️ **À recompiler après chaque mise à jour de KWin** (`paru -S kwin-effects-better-blur-dx-git --rebuild`), sinon l'effet ne se charge plus.
 - `kwinrc [Plugins] blurEnabled=false`, `better_blur_dxEnabled=true`
 - `kwinrc [Effect-better-blur-dx]` : `BlurNonMatching=true`, `BlurMatching=false` (flou forcé partout sauf la liste),
-  `WindowClasses` = kitty (flou natif via `background_blur`), steam, gamescope, lecteurs vidéo, plasmashell, spectacle ;
+  `WindowClasses` = steam, gamescope, lecteurs vidéo, plasmashell, spectacle ;
   `BlurDecorations=true`, `BlurMenus=true`, `BlurStrength=6`.
+- kitty **n'est pas** dans `WindowClasses` : s'il y est, Better Blur DX ignore aussi sa demande de flou (`background_blur`).
