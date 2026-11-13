@@ -8,4 +8,8 @@
 | CozetteVector / Bold (`.ttf`) | 1.30.0 | idem | MIT |
 
 ## Paquets pacman / AUR
-_(aucun pour l'instant)_
+| Paquet | Dépôt | Version | Usage |
+|---|---|---|---|
+| kitty | extra | 0.50.0-1 | terminal (phase 3) |
+| kvantum | extra | 1.1.9-1 | moteur de thème Qt (phase 1) |
+| paru | cachyos | 2.2.0-2 | assistant AUR |
