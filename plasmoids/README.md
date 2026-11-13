@@ -93,4 +93,7 @@ lu par le module kded `audioshortcutsservice` (le recharger : `qdbus6 org.kde.kd
 
 ### Actions de session (inventaire)
 5 boutons pixel à droite de la recherche : verrouiller (`org.freedesktop.ScreenSaver.Lock`), veille
-(logind `Suspend`, bus système), déconnexion / redémarrer / éteindre (`org.kde.LogoutPrompt` → confirmation KDE).
+(logind `Suspend`, bus système) ; déconnexion / redémarrer / éteindre → **confirmation dans l'inventaire**
+(Entrée / Échap), puis `org.kde.Shutdown` (`logout`, `logoutAndReboot`, `logoutAndShutdown`).
+La confirmation KDE (`org.kde.LogoutPrompt`) n'est plus utilisée : son greeter refuse de s'ouvrir dès qu'un
+`plasma-shutdown` traîne déjà sur le bus.

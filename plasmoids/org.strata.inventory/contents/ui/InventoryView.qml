@@ -18,7 +18,9 @@ FocusScope {
     function shiftTab(d) { const n = root.tabs.length; root.currentTab = root.tabs[(tabIndex() + d + n) % n].id }
 
     Keys.onPressed: (e) => {
-        if (e.key === Qt.Key_Escape) { inv.visible = false; e.accepted = true }
+        if (root.pendingAction !== "" && (e.key === Qt.Key_Return || e.key === Qt.Key_Enter)) { root.confirmSession(); e.accepted = true }
+        else if (e.key === Qt.Key_Escape && root.pendingAction !== "") { root.pendingAction = ""; search.forceActiveFocus(); e.accepted = true }
+        else if (e.key === Qt.Key_Escape) { inv.visible = false; e.accepted = true }
         else if ((e.modifiers & Qt.ControlModifier) && (e.key === Qt.Key_PageDown || e.key === Qt.Key_Tab)) { shiftTab(1); e.accepted = true }
         else if ((e.modifiers & Qt.ControlModifier) && (e.key === Qt.Key_PageUp || e.key === Qt.Key_Backtab)) { shiftTab(-1); e.accepted = true }
     }
@@ -178,6 +180,66 @@ FocusScope {
                 icon: info ? info.icon : (fav !== "" ? "application-x-executable" : "")
                 tint: root.tabColor(root.appTab[fav] || "")
                 onDropped: (url) => root.pinAt(url, index)
+            }
+        }
+    }
+
+    // ---------- confirmation des actions de session (dans le style Strata)
+    Item {
+        id: confirm
+        anchors.fill: panel
+        visible: root.pendingAction !== ""
+        z: 50
+        readonly property var texts: ({
+            logout: { q: "Fermer la session ?",      b: "Se déconnecter", c: "#B58AD6" },
+            reboot: { q: "Redémarrer l'ordinateur ?", b: "Redémarrer",     c: "#E8B23A" },
+            off:    { q: "Éteindre l'ordinateur ?",   b: "Éteindre",       c: "#C8553D" } })
+        readonly property var t: texts[root.pendingAction] || texts.off
+        onVisibleChanged: if (visible) confirmBtn.forceActiveFocus()
+
+        Rectangle { anchors.fill: parent; color: "#120D08"; opacity: 0.7 }
+        MouseArea { anchors.fill: parent; onClicked: root.pendingAction = "" }   // clic hors du cadre = annuler
+        Item {
+            anchors.centerIn: parent
+            width: 460 + 8; height: 190 + 8
+            Rectangle { x: 8; y: 8; width: 460; height: 190; color: "#120D08"; opacity: 0.55 }
+            Bevel { width: 460; height: 190; fill: "#3A2C20" }
+            MouseArea { width: 460; height: 190 }                                  // absorbe les clics
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter; anchors.horizontalCenterOffset: -4
+                y: 36
+                text: confirm.t.q
+                color: "#EDE3CF"
+                font.family: "Pixelify Sans"; font.pixelSize: 22; font.weight: Font.DemiBold
+            }
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter; anchors.horizontalCenterOffset: -4
+                y: 72
+                text: "Entrée pour confirmer · Échap pour annuler"
+                color: "#B8A88C"
+                font.family: "Pixelify Sans"; font.pixelSize: 13
+            }
+            Row {
+                anchors.horizontalCenter: parent.horizontalCenter; anchors.horizontalCenterOffset: -4
+                y: 112; spacing: 16
+                Item {
+                    id: confirmBtn
+                    width: 190; height: 48
+                    focus: true
+                    Bevel { anchors.fill: parent; cw: 3; bw: 3; light: Qt.lighter(confirm.t.c, 1.3); dark: Qt.darker(confirm.t.c, 1.6)
+                            fill: okMa.containsMouse ? Qt.lighter(confirm.t.c, 1.12) : confirm.t.c }
+                    Text { anchors.centerIn: parent; text: confirm.t.b; color: "#1A130D"
+                           font.family: "Pixelify Sans"; font.pixelSize: 17; font.weight: Font.Bold }
+                    MouseArea { id: okMa; anchors.fill: parent; hoverEnabled: true; onClicked: root.confirmSession() }
+                }
+                Item {
+                    width: 150; height: 48
+                    Bevel { anchors.fill: parent; cw: 3; bw: 3; fill: noMa.containsMouse ? "#4A3828" : "#2B2118" }
+                    Text { anchors.centerIn: parent; text: "Annuler"; color: "#EDE3CF"
+                           font.family: "Pixelify Sans"; font.pixelSize: 17 }
+                    MouseArea { id: noMa; anchors.fill: parent; hoverEnabled: true
+                                onClicked: { root.pendingAction = ""; search.forceActiveFocus() } }
+                }
             }
         }
     }

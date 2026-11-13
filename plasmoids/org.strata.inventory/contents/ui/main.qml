@@ -140,21 +140,31 @@ print(out);`
         root.hotbar = list
     }
 
-    // Actions de session. Déconnexion / redémarrage / arrêt passent par la confirmation KDE (LogoutPrompt).
+    // Actions de session : verrouiller / veille immédiats ; déconnexion / redémarrer / éteindre après
+    // confirmation dans l'inventaire, puis org.kde.Shutdown (service de fermeture de session de Plasma).
+    property string pendingAction: ""        // "logout" | "reboot" | "off" en attente de confirmation
+    function call(bus, service, path, iface, member, args, sig) {
+        bus.asyncCall({ service: service, path: path, iface: iface, member: member,
+                        arguments: args || [], signature: sig || "" }, () => {},
+                      (e) => console.warn("strata-inventory : échec", member, e))
+    }
     function session(action) {
-        inv.visible = false
-        const call = (bus, service, path, iface, member, args, sig) =>
-            bus.asyncCall({ service: service, path: path, iface: iface, member: member,
-                            arguments: args || [], signature: sig || "" }, () => {}, () => {})
-        if (action === "lock")
+        if (action === "lock") {
+            inv.visible = false
             call(DBus.SessionBus, "org.freedesktop.ScreenSaver", "/ScreenSaver", "org.freedesktop.ScreenSaver", "Lock")
-        else if (action === "suspend")
+        } else if (action === "suspend") {
+            inv.visible = false
             call(DBus.SystemBus, "org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager",
                  "Suspend", [new DBus.bool(true)], "(b)")
-        else {
-            const m = { logout: "promptLogout", reboot: "promptReboot", off: "promptShutDown" }[action]
-            call(DBus.SessionBus, "org.kde.LogoutPrompt", "/LogoutPrompt", "org.kde.LogoutPrompt", m)
+        } else {
+            pendingAction = action                // affiche la confirmation
         }
+    }
+    function confirmSession() {
+        const m = { logout: "logout", reboot: "logoutAndReboot", off: "logoutAndShutdown" }[pendingAction]
+        pendingAction = ""
+        inv.visible = false
+        if (m) call(DBus.SessionBus, "org.kde.Shutdown", "/Shutdown", "org.kde.Shutdown", m)
     }
 
     // Meta (activateLauncherMenu) et clic sur l'icône du panneau
@@ -166,6 +176,7 @@ print(out);`
         lastToggle = t
         if (inv.visible) { inv.visible = false; return }
         root.query = ""
+        root.pendingAction = ""
         root.currentTab = "all"
         refreshHotbar()
         const g = Plasmoid.containment.screenGeometry
