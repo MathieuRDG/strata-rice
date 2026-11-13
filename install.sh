@@ -150,6 +150,10 @@ cp -f terminal/fastfetch/* "$C/fastfetch/"
 cp -f terminal/fish/functions/fish_prompt.fish "$C/fish/functions/"
 cp -f terminal/fish/conf.d/strata-colors.fish "$C/fish/conf.d/"
 
+# ---------------------------------------------------------------- 8b. Firefox : barre de titre système + userChrome Strata
+say "Firefox (barre de titre Strata)"
+apps/firefox/apply.sh
+
 # ---------------------------------------------------------------- 9. Plasma Style
 say "Plasma Style"
 python3 plasma/build.py >/dev/null
@@ -174,10 +178,12 @@ Type=Application
 Name=$2
 Comment=Web app Strata ($4)
 Icon=$3
-Exec=firefox --new-window $4
+Exec=firefox --profile $D/strata-webapps/$1 --name strata-$1 --class strata-$1 $4
 Categories=$5
-StartupWMClass=firefox
+StartupWMClass=strata-$1
 EOD
+    # profil Firefox dédié : fenêtre identifiée « strata-$1 » → slot propre dans la hotbar (pas confondue avec Firefox)
+    mkdir -p "$D/strata-webapps/$1"
     echo "strata-$1"
 }
 dummy() { cp -f "plasmoids/dummy-launchers/strata-$1.desktop" "$D/applications/"; echo "strata-$1"; }
@@ -191,6 +197,7 @@ L+=("$(have feishin io.github.jeffvli.Feishin org.jeffvli.feishin sonixd || weba
 L+=("$(have steam com.valvesoftware.Steam || dummy steam)")
 L+=("$(have code visual-studio-code code-oss codium com.visualstudio.code || dummy vscode)")
 L+=("$(webapp proxmox 'Proxmox VE' network-server "$PROXMOX_URL" 'Network;System;')")
+apps/firefox/apply.sh >/dev/null   # profils des web apps fraîchement créés
 kbuildsycoca6 >/dev/null 2>&1 || true
 LAUNCHERS_JS="[$(printf '"applications:%s.desktop",' "${L[@]}" | sed 's/,$//')]"
 echo "  hotbar : ${L[*]}"
@@ -257,9 +264,11 @@ if [ "$WITH_SDDM" = 1 ]; then
     sudo chmod -R a+rX /usr/share/sddm/themes/strata
     sudo mkdir -p /etc/sddm.conf.d && sudo cp -f sddm/strata.conf /etc/sddm.conf.d/strata.conf
     dm=$(systemctl show -p Id --value display-manager 2>/dev/null || true)
+    # CachyOS récent démarre sur Plasma Login Manager : sans bascule, le thème Strata n'est jamais affiché au boot
     if [ "$dm" != "sddm.service" ]; then
-        warn "gestionnaire de connexion actif : ${dm:-inconnu} (pas SDDM). Pour basculer :"
-        warn "  sudo systemctl disable ${dm%.service} && sudo systemctl enable sddm"
+        say "bascule du gestionnaire de connexion : ${dm:-aucun} → sddm (effectif au prochain démarrage)"
+        [ -n "$dm" ] && sudo systemctl disable "${dm%.service}" >/dev/null 2>&1 || true
+        sudo systemctl enable sddm >/dev/null 2>&1 || sudo systemctl enable -f sddm >/dev/null
     fi
 fi
 

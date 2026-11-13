@@ -57,8 +57,9 @@ La configuration d'origine est sauvegardée une fois dans `~/.local/state/strata
 
 ## 6. Connexion (SDDM / Plasma Login Manager)
 - Si SDDM est actif : `./install.sh --with-sddm` suffit ; test : `sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/strata`.
-- Si Plasma Login Manager est actif : le thème SDDM est installé mais inactif. Pour l'utiliser :
-  `sudo systemctl disable plasmalogin && sudo systemctl enable sddm` puis redémarrer.
+- Si Plasma Login Manager est actif (cas par défaut sur CachyOS récent), `--with-sddm` désactive `plasmalogin`
+  et active `sddm` (effectif au redémarrage). Sans cette bascule, le thème Strata n'apparaît jamais au démarrage.
+  Manuellement : `sudo systemctl disable plasmalogin && sudo systemctl enable sddm`.
 
 ## 7. Après une mise à jour de Plasma
 - Écran de verrouillage : resynchronisé automatiquement (`strata-lockscreen-sync.path`) ; si le patch ne
@@ -81,3 +82,12 @@ La configuration d'origine est sauvegardée une fois dans `~/.local/state/strata
   `/usr/lib/plasma-changeicons breeze-dark`.
 - Clients : Jellyfin Media Player (`com.github.iwalton3.jellyfin-media-player`) / Jellyfin Desktop
   (`org.jellyfin.JellyfinDesktop`), Feishin (`feishin`), Discord, Steam — détectés automatiquement.
+
+## Firefox et web apps
+- `apps/firefox/apply.sh` (appelé par `install.sh`) dépose `user.js` + `chrome/userChrome.css` dans chaque profil :
+  barre de titre du système (décoration Strata), onglets en slots, barre d'adresse en creux, sans arrondis.
+  Redémarrer Firefox après. Le lancer une fois avant `install.sh` pour que le profil existe.
+- Web apps (Jellyfin, Navidrome, Proxmox sans client natif) : profil Firefox dédié dans `~/.local/share/strata-webapps/<app>`
+  et `--name strata-<app>`, pour avoir leur propre slot dans la hotbar au lieu d'être confondues avec Firefox.
+- Barre de titre système pour les autres apps : VS Code → `"window.titleBarStyle": "native"` ; Vesktop → option
+  « Barre de titre native ». Discord officiel, Steam et les apps GTK4/libadwaita dessinent leur propre barre : non modifiable.

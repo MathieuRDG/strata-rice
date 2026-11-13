@@ -49,7 +49,7 @@ PlasmoidItem {
     }
 
     // ---------- masquage en plein écran
-    // Fenêtres plein écran non réduites, sur l'écran et le bureau de la hotbar (modèle non groupé)
+    // Fenêtres plein écran OU agrandies non réduites, sur l'écran et le bureau de la hotbar (modèle non groupé)
     TaskManager.TasksModel {
         id: fsTasks
         screenGeometry: Plasmoid.containment.screenGeometry
@@ -64,7 +64,11 @@ PlasmoidItem {
     KItemModels.KSortFilterProxyModel {
         id: fsProxy
         sourceModel: fsTasks
-        filterRowCallback: (row, parent) => fsTasks.data(fsTasks.index(row, 0, parent), TaskManager.AbstractTasksModel.IsFullScreen) === true
+        filterRowCallback: (row, parent) => {
+            const i = fsTasks.index(row, 0, parent)
+            return fsTasks.data(i, TaskManager.AbstractTasksModel.IsFullScreen) === true
+                || fsTasks.data(i, TaskManager.AbstractTasksModel.IsMaximized) === true
+        }
     }
     Connections {
         target: fsTasks
@@ -122,10 +126,13 @@ PlasmoidItem {
         function onRowsRemoved() { root.refilter() }
         function onRowsMoved() { root.refilter() }
         function onLayoutChanged() { root.refilter() }
-        function onDataChanged() { activeProxyModel.invalidateFilter() }
+        function onDataChanged() { root.refilter() }
         function onActiveTaskChanged() { activeProxyModel.invalidateFilter() }
     }
-    function refilter() { firstRow.invalidateFilter(); secondRow.invalidateFilter(); activeProxyModel.invalidateFilter() }
+    // différé : les proxys doivent avoir traité le signal du modèle source avant d'être refiltrés
+    // (sinon, quand une fenêtre remplace son lanceur épinglé, l'app apparaît deux fois)
+    function refilter() { Qt.callLater(doRefilter) }
+    function doRefilter() { firstRow.invalidateFilter(); secondRow.invalidateFilter(); activeProxyModel.invalidateFilter() }
 
     function activate(row, mouse) {
         const idx = tasksModel.makeModelIndex(row)
@@ -246,8 +253,11 @@ PlasmoidItem {
 
             mainItem: Column {
                 spacing: 6
+                // largeur explicite : le Dialog suit width/height de son mainItem (sinon le nom est tronqué)
+                width: Math.max(t.implicitWidth + 2, root.overflow ? row2.implicitWidth : 0)
+                height: (root.activeName !== "" ? t.implicitHeight + 2 : 0) + (root.overflow ? row2.implicitHeight + 6 : 0)
                 Item {
-                    width: Math.max(label.width, root.overflow ? row2.width : 0)
+                    width: parent.width
                     height: label.height
                     Item {
                         id: label
