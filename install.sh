@@ -50,7 +50,7 @@ fi
 # ---------------------------------------------------------------- 2. paquets
 if [ "$PACKAGES" = 1 ]; then
     say "Paquets (pacman)"
-    sudo pacman -S --needed --noconfirm kitty kvantum paru fish fastfetch python ydotool >/dev/null || warn "pacman a échoué"
+    sudo pacman -S --needed --noconfirm kitty kvantum paru fish fastfetch python >/dev/null || warn "pacman a échoué"
     if ! pacman -Q kwin-effects-better-blur-dx-git >/dev/null 2>&1; then
         say "Better Blur DX (AUR, compilation)"
         paru -S --needed --noconfirm --skipreview kwin-effects-better-blur-dx-git || warn "Better Blur DX non installé"
