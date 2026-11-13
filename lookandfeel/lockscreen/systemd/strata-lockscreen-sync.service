@@ -1,0 +1,6 @@
+[Unit]
+Description=Strata : réapplique l'habillage de l'écran de verrouillage
+
+[Service]
+Type=oneshot
+ExecStart=%h/strata-rice/lookandfeel/lockscreen/install-lockscreen.sh

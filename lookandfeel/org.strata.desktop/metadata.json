@@ -1,0 +1,13 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [{ "Name": "Strata" }],
+        "Category": "",
+        "Description": "Strata : rice pixel original (bois, herbe, pierre) — splash et écran de verrouillage",
+        "Id": "org.strata.desktop",
+        "License": "GPL-3.0-or-later",
+        "Name": "Strata",
+        "Version": "1.0"
+    },
+    "X-Plasma-APIVersion": "2"
+}

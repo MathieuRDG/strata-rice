@@ -1,0 +1,15 @@
+[kdeglobals][KDE]
+widgetStyle=kvantum
+
+[kdeglobals][General]
+ColorScheme=Strata
+
+[plasmarc][Theme]
+name=Strata
+
+[kwinrc][org.kde.kdecoration2]
+library=org.kde.kwin.aurorae.v2
+theme=__aurorae__svg__Strata
+
+[ksplashrc][KSplash]
+Theme=org.strata.desktop

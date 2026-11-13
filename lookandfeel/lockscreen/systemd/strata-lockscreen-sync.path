@@ -1,0 +1,9 @@
+[Unit]
+Description=Strata : resynchronise l'écran de verrouillage après une mise à jour de Plasma
+
+[Path]
+PathChanged=/usr/share/plasma/shells/org.kde.plasma.desktop/contents/lockscreen/LockScreenUi.qml
+PathChanged=/usr/share/plasma/shells/org.kde.plasma.desktop/metadata.json
+
+[Install]
+WantedBy=default.target
