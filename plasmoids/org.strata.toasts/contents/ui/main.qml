@@ -17,10 +17,12 @@ PlasmoidItem {
     readonly property int topOffset: 48 + 8      // sous le panneau du haut
 
     NotificationManager.Settings { id: nsettings }
+    function syncStack() { stack.visible = notifs.count > 0 }
 
     NotificationManager.Notifications {
         id: notifs
         limit: 5
+        showNotifications: true
         showExpired: false
         showDismissed: false
         showAddedDuringInhibition: false
@@ -30,7 +32,11 @@ PlasmoidItem {
         sortMode: NotificationManager.Notifications.SortByDate
         sortOrder: Qt.DescendingOrder           // la plus récente en haut
         groupMode: NotificationManager.Notifications.GroupDisabled
-        onCountChanged: stack.visible = count > 0
+        // Plasma 6.8 : countChanged part avant l'insertion réelle (count lu = 0) → on relit après coup
+        onCountChanged: Qt.callLater(root.syncStack)
+        onRowsInserted: Qt.callLater(root.syncStack)
+        onRowsRemoved: Qt.callLater(root.syncStack)
+        onModelReset: Qt.callLater(root.syncStack)
         urgencies: NotificationManager.Server.inhibited
             ? NotificationManager.Notifications.CriticalUrgency
             : (NotificationManager.Notifications.CriticalUrgency | NotificationManager.Notifications.NormalUrgency
