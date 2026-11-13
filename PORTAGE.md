@@ -4,7 +4,9 @@ Cible : utilisateur `suzanne`, CachyOS (linux-cachyos, btrfs), Ryzen 7 9800X3D, 
 écran 1 = 27" 2560×1440 240 Hz HDR (principal), écran 2 = 16" 1920×1080 60 Hz. kitty 0.49, fish 4.9, fastfetch.
 
 ## 1. Avant
-1. **Snapshot btrfs** (CachyOS : snapper) — `sudo snapper -c root create -d "avant Strata"`.
+1. **Snapshot btrfs** : automatique — `install.sh` crée à chaque lancement un snapshot snapper de `/` (config
+   `root`) et de `/home` (config `home`, si elle existe ; sinon avertissement). Vérifier avant :
+   `sudo snapper list-configs`. Désactivable avec `--no-snapshot`.
 2. Mettre le système à jour et redémarrer (`sudo pacman -Syu`), pour que Better Blur DX soit compilé contre le KWin final.
 3. Vérifier le gestionnaire de connexion : `systemctl status display-manager` (SDDM ou Plasma Login Manager, cf. § 5).
 4. Copier le dépôt dans `~/strata-rice` (le chemin compte pour l'unité `strata-lockscreen-sync`) :
@@ -31,7 +33,9 @@ cd ~/strata-rice
 ```
 Puis **se déconnecter / reconnecter** une fois (décoration Aurorae et police des titres lues au démarrage de KWin).
 Le script est idempotent : le relancer met à jour sans recréer les panneaux (`--reset-layout` pour les recréer).
-La configuration d'origine est sauvegardée une fois dans `~/.local/state/strata/backup-initial/`.
+La configuration d'origine est sauvegardée une fois dans `~/.local/state/strata/backup-initial/` : fichiers clés
+en clair + `home-config.tar.zst` (tout `~/.config` sans les caches, les dossiers de `~/.local/share` que Strata
+modifie, `user.js`/`chrome/` des profils Firefox/LibreWolf).
 
 ## 4. Deux écrans
 - `scripts/screens.py` (appelé par `install.sh`) : le principal est la sortie qui propose 2560×1440 au taux le plus
@@ -68,8 +72,11 @@ La configuration d'origine est sauvegardée une fois dans `~/.local/state/strata
 - Plasmoids maison : vérifier après une mise à jour majeure (modules privés `kicker`, `volume`, `taskmanager`).
 
 ## 8. Revenir en arrière
-- Snapshot snapper, ou : restaurer `~/.local/state/strata/backup-initial/*` dans `~/.config/`, supprimer
-  `~/.local/share/plasma/shells/org.kde.plasma.desktop` (surcharge du verrouillage), puis se reconnecter.
+- **Snapshot snapper** (« avant Strata install.sh … ») : `sudo snapper -c home list`, puis
+  `sudo snapper -c home undochange <n>..0` (idem `-c root`), ou depuis le menu de démarrage si votre chargeur propose les snapshots.
+- **Archive** : se déconnecter, puis depuis un TTY : `rm -rf ~/.local/share/plasma/shells/org.kde.plasma.desktop`
+  et `tar -C ~ --zstd -xf ~/.local/state/strata/backup-initial/home-config.tar.zst`, puis se reconnecter.
+  (Les fichiers ajoutés par Strata hors de l'archive restent, mais ne sont plus utilisés.)
 
 ## 9. Ajouts
 - **Barre DISQUE** (barres d'infos) : occupation de tous les disques via `df` (KSystemStats ne remonte rien pour

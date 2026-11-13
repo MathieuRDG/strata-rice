@@ -5,6 +5,7 @@
 #     ./install.sh --reset-layout  recrée aussi les panneaux (sinon seulement à la 1re installation)
 #     ./install.sh --with-sddm     installe aussi le thème SDDM (sudo)
 #     ./install.sh --no-packages   saute pacman / paru
+#     ./install.sh --no-snapshot   saute le snapshot snapper de départ
 # Les étapes système (paquets, SDDM) demandent sudo. Relancer le script ne casse rien.
 set -euo pipefail
 
@@ -13,13 +14,14 @@ cd "$REPO"
 # shellcheck source=strata.conf
 source "$REPO/strata.conf"
 
-RESET_LAYOUT=0; WITH_SDDM=0; PACKAGES=1
+RESET_LAYOUT=0; WITH_SDDM=0; PACKAGES=1; SNAPSHOT=1
 for a in "$@"; do
     case "$a" in
         --reset-layout) RESET_LAYOUT=1 ;;
         --with-sddm) WITH_SDDM=1 ;;
         --no-packages) PACKAGES=0 ;;
-        -h|--help) sed -n '2,10p' "$0"; exit 0 ;;
+        --no-snapshot) SNAPSHOT=0 ;;
+        -h|--help) sed -n '2,11p' "$0"; exit 0 ;;
         *) echo "option inconnue : $a" >&2; exit 2 ;;
     esac
 done
@@ -36,15 +38,70 @@ say "Vérification de la session"
 qdbus6 org.kde.plasmashell /PlasmaShell >/dev/null 2>&1 || { echo "plasmashell injoignable" >&2; exit 1; }
 [ "$(id -u)" -ne 0 ] || { echo "ne pas lancer en root" >&2; exit 1; }
 
-# ---------------------------------------------------------------- 1. sauvegarde (une seule fois)
+# ---------------------------------------------------------------- 1a. snapshot btrfs (à chaque lancement)
+# Snapper : / (config « root ») et /home (config « home » si elle existe — le rice vit surtout dans /home).
+# Nettoyage « number » : les anciens snapshots sont purgés par snapper comme ceux de snap-pac.
+if [ "$SNAPSHOT" = 1 ]; then
+    if command -v snapper >/dev/null 2>&1; then
+        say "Snapshot snapper avant modification (sudo)"
+        cfgs="$(sudo snapper --no-headers --csvout list-configs --columns config 2>/dev/null || true)"
+        snapped=""
+        for cfg in root home; do
+            if printf '%s\n' "$cfgs" | grep -qx "$cfg"; then
+                if n=$(sudo snapper -c "$cfg" create --cleanup-algorithm number --print-number \
+                         --description "avant Strata install.sh $(date '+%F %T')"); then
+                    snapped="$snapped $cfg#$n"
+                else
+                    warn "snapshot snapper « $cfg » échoué"
+                fi
+            fi
+        done
+        [ -n "$snapped" ] && say "Snapshots créés :$snapped (liste : sudo snapper -c <config> list)"
+        printf '%s\n' "$cfgs" | grep -qx home || \
+            warn "pas de config snapper pour /home : seule l'archive ci-dessous protège la configuration utilisateur"
+        [ -n "$snapped" ] || {
+            warn "aucun snapshot créé."
+            read -r -p "Continuer quand même ? [o/N] " r </dev/tty || r=n
+            case "$r" in o|O|y|Y) ;; *) echo "abandon" >&2; exit 1 ;; esac
+        }
+    else
+        warn "snapper absent : pas de snapshot btrfs (seule l'archive ci-dessous sera faite)"
+    fi
+fi
+
+# ---------------------------------------------------------------- 1b. sauvegarde de la configuration (une seule fois)
+# État d'origine, avant la toute première installation : copie lisible des fichiers clés + archive complète
+# de ~/.config (sans les caches), des dossiers de ~/.local/share que Strata modifie et des profils Firefox/LibreWolf
+# (user.js, chrome/).
 BK="$HOME/.local/state/strata/backup-initial"
-if [ ! -d "$BK" ]; then
+if [ ! -e "$BK/home-config.tar.zst" ]; then
     say "Sauvegarde de la configuration d'origine → $BK"
     mkdir -p "$BK"
     for f in kdeglobals kwinrc kwinrulesrc kglobalshortcutsrc plasmashellrc plasma-org.kde.plasma.desktop-appletsrc \
              kscreenlockerrc ksplashrc plasmaparc kcminputrc fish kitty fastfetch Kvantum fontconfig; do
-        [ -e "$C/$f" ] && cp -a "$C/$f" "$BK/" || true
+        [ -e "$C/$f" ] && [ ! -e "$BK/$f" ] && cp -a "$C/$f" "$BK/" || true
     done
+    items=(.config)
+    for d in plasma aurorae color-schemes fonts icons wallpapers applications strata-webapps kxmlgui5; do
+        [ -e "$D/$d" ] && items+=(".local/share/$d")
+    done
+    for b in .mozilla/firefox .librewolf; do          # (les profils sous ~/.config sont déjà dans .config)
+        [ -d "$HOME/$b" ] || continue
+        while IFS= read -r -d '' x; do items+=("${x#"$HOME"/}"); done < <(
+            find "$HOME/$b" -mindepth 2 -maxdepth 2 \( -name user.js -o -name chrome -o -name prefs.js \) -print0)
+    done
+    if tar -C "$HOME" --zstd -cf "$BK/home-config.tar.zst" \
+           --exclude='*/Cache' --exclude='*/Code Cache' --exclude='*/GPUCache' --exclude='*/CachedData' \
+           --exclude='*/Service Worker' --exclude='*/IndexedDB' --exclude='*/blob_storage' \
+           --exclude='*/ShaderCache' --exclude='*/GrShaderCache' --exclude='*/DawnCache' --exclude='*/logs' \
+           --exclude='.local/share/flatpak' --warning=no-file-changed --ignore-failed-read "${items[@]}"; then
+        say "Archive : $BK/home-config.tar.zst ($(du -h "$BK/home-config.tar.zst" | cut -f1))"
+    else
+        rm -f "$BK/home-config.tar.zst"
+        warn "archive de la configuration échouée"
+        read -r -p "Continuer quand même ? [o/N] " r </dev/tty || r=n
+        case "$r" in o|O|y|Y) ;; *) echo "abandon" >&2; exit 1 ;; esac
+    fi
 fi
 
 # ---------------------------------------------------------------- 2. paquets

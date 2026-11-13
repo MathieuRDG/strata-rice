@@ -19,7 +19,8 @@ curl -fsSL https://raw.githubusercontent.com/MathieuRDG/strata-rice/main/boot.sh
 ```
 
 - Clone dans `~/.local/share/strata` puis lance `install.sh` ; relancer la commande = mise à jour.
-- Options : `… | bash -s -- --with-sddm` (écran de connexion, sudo), `--reset-layout`, `--no-packages`.
+- Options : `… | bash -s -- --with-sddm` (écran de connexion, sudo), `--reset-layout`, `--no-packages`, `--no-snapshot`.
+- Avant toute modification : snapshot snapper de `/` et `/home` (si configurés) + archive de la configuration d'origine (`~/.local/state/strata/backup-initial/`). Retour arrière : `PORTAGE.md` § 8.
 - Réglages : `~/.local/share/strata/strata.conf`, puis `./install.sh`. Détails machine cible : `PORTAGE.md`.
 - Se déconnecter / reconnecter une fois à la fin.
 
