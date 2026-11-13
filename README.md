@@ -7,7 +7,7 @@ Rice **original** inspiré des jeux de blocs (bois, herbe, terre, pierre, slots 
 Depuis un terminal de la session Plasma (Wayland), CachyOS / Arch :
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/STRATA_GH_REPO/main/boot.sh | bash
+curl -fsSL https://raw.githubusercontent.com/MathieuRDG/strata-rice/main/boot.sh | bash
 ```
 
 - Clone dans `~/.local/share/strata` puis lance `install.sh` ; relancer la commande = mise à jour.

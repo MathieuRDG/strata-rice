@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Strata — installateur en une ligne (KDE Plasma 6, Wayland, CachyOS / Arch) :
 #
-#     curl -fsSL https://raw.githubusercontent.com/STRATA_GH_REPO/main/boot.sh | bash
+#     curl -fsSL https://raw.githubusercontent.com/MathieuRDG/strata-rice/main/boot.sh | bash
 #     curl -fsSL …/boot.sh | bash -s -- --with-sddm      (options transmises à install.sh)
 #
 # Clone (ou met à jour) le dépôt dans ~/.local/share/strata puis lance install.sh.
 # Relancer la même commande = mise à jour de Strata.
 set -euo pipefail
 
-STRATA_REPO="${STRATA_REPO:-https://github.com/STRATA_GH_REPO.git}"
+STRATA_REPO="${STRATA_REPO:-https://github.com/MathieuRDG/strata-rice.git}"
 STRATA_REF="${STRATA_REF:-main}"
 STRATA_DIR="${STRATA_DIR:-$HOME/.local/share/strata}"
 
