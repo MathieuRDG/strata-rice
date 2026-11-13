@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="16" shape-rendering="crispEdges">
+<g id="bar-inactive-topleft"><rect x="0" y="0" width="2" height="2" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="2" height="2" fill="#120D08"/></g>
+<g id="bar-inactive-top"><rect x="6" y="0" width="8" height="2" fill="#000" fill-opacity="0"/><rect x="6" y="0" width="8" height="2" fill="#120D08"/></g>
+<g id="bar-inactive-topright"><rect x="18" y="0" width="2" height="2" fill="#000" fill-opacity="0"/><rect x="18" y="0" width="1" height="1" fill="#120D08"/><rect x="19" y="0" width="1" height="1" fill="#4A3420"/><rect x="18" y="1" width="2" height="1" fill="#4A3420"/></g>
+<g id="bar-inactive-left"><rect x="24" y="0" width="2" height="8" fill="#000" fill-opacity="0"/><rect x="24" y="0" width="2" height="8" fill="#120D08"/></g>
+<g id="bar-inactive-center"><rect x="30" y="0" width="8" height="8" fill="#000" fill-opacity="0"/><rect x="30" y="0" width="8" height="8" fill="#1F1812"/></g>
+<g id="bar-inactive-right"><rect x="42" y="0" width="2" height="8" fill="#000" fill-opacity="0"/><rect x="42" y="0" width="2" height="8" fill="#4A3420"/></g>
+<g id="bar-inactive-bottomleft"><rect x="48" y="0" width="2" height="2" fill="#000" fill-opacity="0"/><rect x="48" y="0" width="1" height="1" fill="#120D08"/><rect x="49" y="0" width="1" height="1" fill="#4A3420"/><rect x="48" y="1" width="2" height="1" fill="#4A3420"/></g>
+<g id="bar-inactive-bottom"><rect x="54" y="0" width="8" height="2" fill="#000" fill-opacity="0"/><rect x="54" y="0" width="8" height="2" fill="#4A3420"/></g>
+<g id="bar-inactive-bottomright"><rect x="66" y="0" width="2" height="2" fill="#000" fill-opacity="0"/><rect x="66" y="0" width="2" height="2" fill="#4A3420"/></g>
+<g id="bar-active-center"><rect x="72" y="0" width="13" height="8" fill="#000" fill-opacity="0"/><rect x="72" y="0" width="10" height="8" fill="#7CCB4A"/></g>
+<g id="bar-active-top"><rect x="89" y="0" width="13" height="2" fill="#000" fill-opacity="0"/></g>
+<g id="bar-active-bottom"><rect x="106" y="0" width="13" height="2" fill="#000" fill-opacity="0"/></g>
+<g id="bar-active-left"><rect x="123" y="0" width="2" height="2" fill="#000" fill-opacity="0"/></g>
+<g id="bar-active-right"><rect x="129" y="0" width="2" height="2" fill="#000" fill-opacity="0"/></g>
+<g id="bar-active-topleft"><rect x="135" y="0" width="2" height="2" fill="#000" fill-opacity="0"/></g>
+<g id="bar-active-topright"><rect x="141" y="0" width="2" height="2" fill="#000" fill-opacity="0"/></g>
+<g id="bar-active-bottomleft"><rect x="147" y="0" width="2" height="2" fill="#000" fill-opacity="0"/></g>
+<g id="bar-active-bottomright"><rect x="153" y="0" width="2" height="2" fill="#000" fill-opacity="0"/></g>
+<rect id="hint-tile-center" x="159" y="0" width="1" height="1" fill="#000" fill-opacity="0"/>
+<rect id="hint-bar-size" x="164" y="0" width="12" height="12" fill="#000" fill-opacity="0"/>
+</svg>

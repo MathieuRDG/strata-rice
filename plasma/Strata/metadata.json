@@ -1,0 +1,16 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Strata"
+            }
+        ],
+        "Category": "Plasma Theme",
+        "Description": "Plasma Style pixel Strata : bois, biseaux, slots en creux",
+        "Id": "Strata",
+        "License": "GPL-3.0-or-later",
+        "Name": "Strata",
+        "Version": "1.0"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
